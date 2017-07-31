@@ -9,16 +9,16 @@
 
   function menuConfig(menuService) {
     menuService.addMenuItem('sidebar', {
-      title: 'Articles',
-      state: 'articles',
+      title: 'Devices',
+      state: 'devices',
       type: 'dropdown',
       roles: ['*']
     });
 
     // Add the dropdown list item
-    menuService.addSubMenuItem('sidebar', 'articles', {
-      title: 'List Articles',
-      state: 'articles.list',
+    menuService.addSubMenuItem('sidebar', 'devices', {
+      title: 'List Devices',
+      state: 'devices.list',
       roles: ['*']
     });
   }

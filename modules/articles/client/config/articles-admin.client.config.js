@@ -3,15 +3,15 @@
 
   // Configuring the Articles Admin module
   angular
-    .module('articles.admin')
+    .module('devices.admin')
     .run(menuConfig);
 
   menuConfig.$inject = ['menuService'];
 
   function menuConfig(Menus) {
     Menus.addSubMenuItem('sidebar', 'admin', {
-      title: 'Manage Articles',
-      state: 'admin.articles.list'
+      title: 'Manage Devices',
+      state: 'admin.devices.list'
     });
   }
 }());

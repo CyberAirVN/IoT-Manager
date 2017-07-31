@@ -2,46 +2,46 @@
   'use strict';
 
   angular
-    .module('articles.routes')
+    .module('devices.routes')
     .config(routeConfig);
 
   routeConfig.$inject = ['$stateProvider'];
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('articles', {
+      .state('devices', {
         abstract: true,
-        url: '/articles',
+        url: '/devices',
         template: '<ui-view/>'
       })
-      .state('articles.list', {
+      .state('devices.list', {
         url: '',
-        templateUrl: '/modules/articles/client/views/list-articles.client.view.html',
-        controller: 'ArticlesListController',
+        templateUrl: '/modules/articles/client/views/list-devices.client.view.html',
+        controller: 'DevicesListController',
         controllerAs: 'vm',
         data: {
-          pageTitle: 'Articles List'
+          pageTitle: 'Devices List'
         }
       })
-      .state('articles.view', {
-        url: '/:articleId',
-        templateUrl: '/modules/articles/client/views/view-article.client.view.html',
-        controller: 'ArticlesController',
+      .state('devices.view', {
+        url: '/:deviceId',
+        templateUrl: '/modules/articles/client/views/view-devices.client.view.html',
+        controller: 'DevicesController',
         controllerAs: 'vm',
         resolve: {
-          articleResolve: getArticle
+          deviceResolve: getDevice
         },
         data: {
-          pageTitle: 'Article {{ articleResolve.title }}'
+          pageTitle: 'Device {{ deviceResolve.title }}'
         }
       });
   }
 
-  getArticle.$inject = ['$stateParams', 'ArticlesService'];
+  getDevice.$inject = ['$stateParams', 'DevicesService'];
 
-  function getArticle($stateParams, ArticlesService) {
+  function getDevice($stateParams, ArticlesService) {
     return ArticlesService.get({
-      articleId: $stateParams.articleId
+      deviceId: $stateParams.articleId
     }).$promise;
   }
 }());

@@ -5,23 +5,23 @@
  */
 var path = require('path'),
   mongoose = require('mongoose'),
-  Article = mongoose.model('Article'),
+  Device = mongoose.model('Device'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
  * Create an article
  */
 exports.create = function (req, res) {
-  var article = new Article(req.body);
-  article.user = req.user;
+  var device = new Device(req.body);
+  device.user = req.user;
 
-  article.save(function (err) {
+  device.save(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(device);
     }
   });
 };
@@ -31,31 +31,31 @@ exports.create = function (req, res) {
  */
 exports.read = function (req, res) {
   // convert mongoose document to JSON
-  var article = req.article ? req.article.toJSON() : {};
+  var device = req.device ? req.device.toJSON() : {};
 
-  // Add a custom field to the Article, for determining if the current User is the "owner".
-  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the Article model.
-  article.isCurrentUserOwner = !!(req.user && article.user && article.user._id.toString() === req.user._id.toString());
+  // Add a custom field to the device, for determining if the current User is the "owner".
+  // NOTE: This field is NOT persisted to the database, since it doesn't exist in the device model.
+  device.isCurrentUserOwner = !!(req.user && device.user && device.user._id.toString() === req.user._id.toString());
 
-  res.json(article);
+  res.json(device);
 };
 
 /**
- * Update an article
+ * Update an device
  */
 exports.update = function (req, res) {
-  var article = req.article;
+  var device = req.device;
 
-  article.title = req.body.title;
-  article.content = req.body.content;
+  device.title = req.body.title;
+  device.content = req.body.content;
 
-  article.save(function (err) {
+  device.save(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(device);
     }
   });
 };
@@ -64,15 +64,15 @@ exports.update = function (req, res) {
  * Delete an article
  */
 exports.delete = function (req, res) {
-  var article = req.article;
+  var device = req.device;
 
-  article.remove(function (err) {
+  device.remove(function (err) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(article);
+      res.json(device);
     }
   });
 };
@@ -81,13 +81,13 @@ exports.delete = function (req, res) {
  * List of Articles
  */
 exports.list = function (req, res) {
-  Article.find().sort('-created').populate('user', 'displayName').exec(function (err, articles) {
+  Device.find().sort('-created').populate('user', 'displayName').exec(function (err, devices) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(articles);
+      res.json(devices);
     }
   });
 };
@@ -95,7 +95,7 @@ exports.list = function (req, res) {
 /**
  * Article middleware
  */
-exports.articleByID = function (req, res, next, id) {
+exports.deviceByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
@@ -103,15 +103,15 @@ exports.articleByID = function (req, res, next, id) {
     });
   }
 
-  Article.findById(id).populate('user', 'displayName').exec(function (err, article) {
+  Device.findById(id).populate('user', 'displayName').exec(function (err, device) {
     if (err) {
       return next(err);
-    } else if (!article) {
+    } else if (!device) {
       return res.status(404).send({
-        message: 'No article with that identifier has been found'
+        message: 'No device with that identifier has been found'
       });
     }
-    req.article = article;
+    req.device = device;
     next();
   });
 };

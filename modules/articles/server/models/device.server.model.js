@@ -9,21 +9,23 @@ var mongoose = require('mongoose'),
 /**
  * Article Schema
  */
-var ArticleSchema = new Schema({
+var DeviceSchema = new Schema({
   created: {
     type: Date,
     default: Date.now
   },
-  title: {
+  name: {
     type: String,
     default: '',
     trim: true,
-    required: 'Title cannot be blank'
+    required: 'name cannot be blank'
   },
-  content: {
+  code: {
     type: String,
-    default: '',
-    trim: true
+    required: 'code cannot be blank'
+  }
+  gateway: {
+    type: Array,
   },
   user: {
     type: Schema.ObjectId,
@@ -31,4 +33,4 @@ var ArticleSchema = new Schema({
   }
 });
 
-mongoose.model('Article', ArticleSchema);
+mongoose.model('Device', DeviceSchema);

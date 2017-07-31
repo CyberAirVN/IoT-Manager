@@ -2,64 +2,64 @@
   'use strict';
 
   angular
-    .module('articles.admin.routes')
+    .module('devices.admin.routes')
     .config(routeConfig);
 
   routeConfig.$inject = ['$stateProvider'];
 
   function routeConfig($stateProvider) {
     $stateProvider
-      .state('admin.articles', {
+      .state('admin.devices', {
         abstract: true,
-        url: '/articles',
+        url: '/devices',
         template: '<ui-view/>'
       })
-      .state('admin.articles.list', {
+      .state('admin.devices.list', {
         url: '',
-        templateUrl: '/modules/articles/client/views/admin/list-articles.client.view.html',
-        controller: 'ArticlesAdminListController',
+        templateUrl: '/modules/articles/client/views/admin/list-devices.client.view.html',
+        controller: 'DevicesAdminListController',
         controllerAs: 'vm',
         data: {
           roles: ['admin']
         }
       })
-      .state('admin.articles.create', {
+      .state('admin.devices.create', {
         url: '/create',
-        templateUrl: '/modules/articles/client/views/admin/form-article.client.view.html',
-        controller: 'ArticlesAdminController',
+        templateUrl: '/modules/articles/client/views/admin/form-devices.client.view.html',
+        controller: 'DevicesAdminController',
         controllerAs: 'vm',
         data: {
           roles: ['admin']
         },
         resolve: {
-          articleResolve: newArticle
+          deviceResolve: newDevice
         }
       })
-      .state('admin.articles.edit', {
-        url: '/:articleId/edit',
-        templateUrl: '/modules/articles/client/views/admin/form-article.client.view.html',
-        controller: 'ArticlesAdminController',
+      .state('admin.devices.edit', {
+        url: '/:deviceId/edit',
+        templateUrl: '/modules/articles/client/views/admin/form-devices.client.view.html',
+        controller: 'DevicesAdminController',
         controllerAs: 'vm',
         data: {
           roles: ['admin']
         },
         resolve: {
-          articleResolve: getArticle
+          deviceResolve: getDevice
         }
       });
   }
 
-  getArticle.$inject = ['$stateParams', 'ArticlesService'];
+  getDevice.$inject = ['$stateParams', 'DevicesService'];
 
-  function getArticle($stateParams, ArticlesService) {
-    return ArticlesService.get({
-      articleId: $stateParams.articleId
+  function getDevice($stateParams, DevicesService) {
+    return DevicesService.get({
+      devicesId: $stateParams.devicesId
     }).$promise;
   }
 
-  newArticle.$inject = ['ArticlesService'];
+  newDevice.$inject = ['DevicesService'];
 
-  function newArticle(ArticlesService) {
-    return new ArticlesService();
+  function newDevice(DevicesService) {
+    return new DevicesService();
   }
 }());

@@ -2,15 +2,15 @@
   'use strict';
 
   angular
-    .module('articles.admin')
-    .controller('ArticlesAdminController', ArticlesAdminController);
+    .module('devices.admin')
+    .controller('DevicesAdminController', DevicesAdminController);
 
-  ArticlesAdminController.$inject = ['$scope', '$state', '$window', 'articleResolve', 'Authentication', 'Notification'];
+  DevicesAdminController.$inject = ['$scope', '$state', '$window', 'deviceResolve', 'Authentication', 'Notification'];
 
-  function ArticlesAdminController($scope, $state, $window, article, Authentication, Notification) {
+  function DevicesAdminController($scope, $state, $window, device, Authentication, Notification) {
     var vm = this;
 
-    vm.article = article;
+    vm.device = device;
     vm.authentication = Authentication;
     vm.form = {};
     vm.remove = remove;
@@ -19,8 +19,8 @@
     // Remove existing Article
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {
-        vm.article.$remove(function() {
-          $state.go('admin.articles.list');
+        vm.device.$remove(function() {
+          $state.go('admin.devices.list');
           Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Article deleted successfully!' });
         });
       }
@@ -33,13 +33,13 @@
         return false;
       }
 
-      // Create a new article, or update the current instance
-      vm.article.createOrUpdate()
+      // Create a new device, or update the current instance
+      vm.device.createOrUpdate()
         .then(successCallback)
         .catch(errorCallback);
 
       function successCallback(res) {
-        $state.go('admin.articles.list'); // should we send the User to the list or the updated Article's view?
+        $state.go('admin.devices.list'); // should we send the User to the list or the updated Article's view?
         Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Article saved successfully!' });
       }
 
