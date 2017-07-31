@@ -30,8 +30,7 @@
             <span ng-if="device.user" ng-bind="device.user.displayName"></span>
             <span ng-if="!device.user">Deleted User</span>
           </small>
-          <h4 class="list-group-item-heading" data-ng-bind="device.title"></h4>
-          <p class="list-group-item-text" data-ng-bind="device.content"></p>
+          <h4 class="list-group-item-heading" data-ng-bind="device.name"></h4>
         </a>
       </div>
       <div class="alert alert-warning text-center" data-ng-if="devices.$resolved && !devices.length">

@@ -9,7 +9,7 @@ var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
- * Create an article
+ * Create an device
  */
 exports.create = function (req, res) {
   var device = new Device(req.body);
@@ -27,7 +27,7 @@ exports.create = function (req, res) {
 };
 
 /**
- * Show the current article
+ * Show the current device
  */
 exports.read = function (req, res) {
   // convert mongoose document to JSON
@@ -46,8 +46,9 @@ exports.read = function (req, res) {
 exports.update = function (req, res) {
   var device = req.device;
 
-  device.title = req.body.title;
-  device.content = req.body.content;
+  device.name = req.body.name;
+  device.code = req.body.code;
+  device.gateway = req.body.gateway;
 
   device.save(function (err) {
     if (err) {
@@ -61,7 +62,7 @@ exports.update = function (req, res) {
 };
 
 /**
- * Delete an article
+ * Delete an device
  */
 exports.delete = function (req, res) {
   var device = req.device;
@@ -78,7 +79,7 @@ exports.delete = function (req, res) {
 };
 
 /**
- * List of Articles
+ * List of Devices
  */
 exports.list = function (req, res) {
   Device.find().sort('-created').populate('user', 'displayName').exec(function (err, devices) {
@@ -93,13 +94,13 @@ exports.list = function (req, res) {
 };
 
 /**
- * Article middleware
+ * Device middleware
  */
 exports.deviceByID = function (req, res, next, id) {
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).send({
-      message: 'Article is invalid'
+      message: 'Device is invalid'
     });
   }
 

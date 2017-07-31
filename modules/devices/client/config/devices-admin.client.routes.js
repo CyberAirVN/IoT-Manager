@@ -53,7 +53,7 @@
 
   function getDevice($stateParams, DevicesService) {
     return DevicesService.get({
-      devicesId: $stateParams.devicesId
+      deviceId: $stateParams.deviceId
     }).$promise;
   }
 

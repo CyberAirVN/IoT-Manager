@@ -18,6 +18,6 @@ module.exports = function(app) {
     .put(devices.update)
     .delete(devices.delete);
 
-  // Finish by binding the article middleware
+  // Finish by binding the device middleware
   app.param('deviceId', devices.deviceByID);
 };
