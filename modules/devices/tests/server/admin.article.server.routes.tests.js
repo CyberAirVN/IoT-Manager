@@ -5,7 +5,7 @@ var should = require('should'),
   path = require('path'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  Article = mongoose.model('Article'),
+  Device = mongoose.model('Device'),
   express = require(path.resolve('./config/lib/express'));
 
 /**
@@ -15,13 +15,13 @@ var app,
   agent,
   credentials,
   user,
-  article;
+  device;
 
 /**
- * Article routes tests
+ * Device routes tests
  */
-describe('Article Admin CRUD tests', function () {
-  before(function (done) {
+describe('Device Admin CRUD tests', function() {
+  before(function(done) {
     // Get application
     app = express.init(mongoose);
     agent = request.agent(app);
@@ -29,7 +29,7 @@ describe('Article Admin CRUD tests', function () {
     done();
   });
 
-  beforeEach(function (done) {
+  beforeEach(function(done) {
     // Create user credentials
     credentials = {
       usernameOrEmail: 'username',
@@ -48,12 +48,12 @@ describe('Article Admin CRUD tests', function () {
       provider: 'local'
     });
 
-    // Save a user to the test db and create new article
+    // Save a user to the test db and create new device
     user.save()
-      .then(function () {
-        article = {
-          title: 'Article Title',
-          content: 'Article Content'
+      .then(function() {
+        device = {
+          title: 'Device Title',
+          content: 'Device Content'
         };
 
         done();
@@ -61,11 +61,11 @@ describe('Article Admin CRUD tests', function () {
       .catch(done);
   });
 
-  it('should be able to save an article if logged in', function (done) {
+  it('should be able to save an device if logged in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function(signinErr, signinRes) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -74,30 +74,30 @@ describe('Article Admin CRUD tests', function () {
         // Get the userId
         var userId = user.id;
 
-        // Save a new article
-        agent.post('/api/articles')
-          .send(article)
+        // Save a new device
+        agent.post('/api/devices')
+          .send(device)
           .expect(200)
-          .end(function (articleSaveErr, articleSaveRes) {
-            // Handle article save error
-            if (articleSaveErr) {
-              return done(articleSaveErr);
+          .end(function(deviceSaveErr, deviceSaveRes) {
+            // Handle device save error
+            if (deviceSaveErr) {
+              return done(deviceSaveErr);
             }
 
-            // Get a list of articles
-            agent.get('/api/articles')
-              .end(function (articlesGetErr, articlesGetRes) {
-                // Handle article save error
-                if (articlesGetErr) {
-                  return done(articlesGetErr);
+            // Get a list of devices
+            agent.get('/api/devices')
+              .end(function(devicesGetErr, devicesGetRes) {
+                // Handle device save error
+                if (devicesGetErr) {
+                  return done(devicesGetErr);
                 }
 
-                // Get articles list
-                var articles = articlesGetRes.body;
+                // Get devices list
+                var devices = devicesGetRes.body;
 
                 // Set assertions
-                (articles[0].user._id).should.equal(userId);
-                (articles[0].title).should.match('Article Title');
+                (devices[0].user._id).should.equal(userId);
+                (devices[0].title).should.match('Device Title');
 
                 // Call the assertion callback
                 done();
@@ -106,11 +106,11 @@ describe('Article Admin CRUD tests', function () {
       });
   });
 
-  it('should be able to update an article if signed in', function (done) {
+  it('should be able to update an device if signed in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function(signinErr, signinRes) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -119,32 +119,32 @@ describe('Article Admin CRUD tests', function () {
         // Get the userId
         var userId = user.id;
 
-        // Save a new article
-        agent.post('/api/articles')
-          .send(article)
+        // Save a new device
+        agent.post('/api/devices')
+          .send(device)
           .expect(200)
-          .end(function (articleSaveErr, articleSaveRes) {
-            // Handle article save error
-            if (articleSaveErr) {
-              return done(articleSaveErr);
+          .end(function(deviceSaveErr, deviceSaveRes) {
+            // Handle device save error
+            if (deviceSaveErr) {
+              return done(deviceSaveErr);
             }
 
-            // Update article title
-            article.title = 'WHY YOU GOTTA BE SO MEAN?';
+            // Update device title
+            device.title = 'WHY YOU GOTTA BE SO MEAN?';
 
-            // Update an existing article
-            agent.put('/api/articles/' + articleSaveRes.body._id)
-              .send(article)
+            // Update an existing device
+            agent.put('/api/devices/' + deviceSaveRes.body._id)
+              .send(device)
               .expect(200)
-              .end(function (articleUpdateErr, articleUpdateRes) {
-                // Handle article update error
-                if (articleUpdateErr) {
-                  return done(articleUpdateErr);
+              .end(function(deviceUpdateErr, deviceUpdateRes) {
+                // Handle device update error
+                if (deviceUpdateErr) {
+                  return done(deviceUpdateErr);
                 }
 
                 // Set assertions
-                (articleUpdateRes.body._id).should.equal(articleSaveRes.body._id);
-                (articleUpdateRes.body.title).should.match('WHY YOU GOTTA BE SO MEAN?');
+                (deviceUpdateRes.body._id).should.equal(deviceSaveRes.body._id);
+                (deviceUpdateRes.body.title).should.match('WHY YOU GOTTA BE SO MEAN?');
 
                 // Call the assertion callback
                 done();
@@ -153,14 +153,14 @@ describe('Article Admin CRUD tests', function () {
       });
   });
 
-  it('should not be able to save an article if no title is provided', function (done) {
+  it('should not be able to save an device if no title is provided', function(done) {
     // Invalidate title field
-    article.title = '';
+    device.title = '';
 
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function(signinErr, signinRes) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -169,25 +169,25 @@ describe('Article Admin CRUD tests', function () {
         // Get the userId
         var userId = user.id;
 
-        // Save a new article
-        agent.post('/api/articles')
-          .send(article)
+        // Save a new device
+        agent.post('/api/devices')
+          .send(device)
           .expect(422)
-          .end(function (articleSaveErr, articleSaveRes) {
+          .end(function(deviceSaveErr, deviceSaveRes) {
             // Set message assertion
-            (articleSaveRes.body.message).should.match('Title cannot be blank');
+            (deviceSaveRes.body.message).should.match('Title cannot be blank');
 
-            // Handle article save error
-            done(articleSaveErr);
+            // Handle device save error
+            done(deviceSaveErr);
           });
       });
   });
 
-  it('should be able to delete an article if signed in', function (done) {
+  it('should be able to delete an device if signed in', function(done) {
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function(signinErr, signinRes) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -196,28 +196,28 @@ describe('Article Admin CRUD tests', function () {
         // Get the userId
         var userId = user.id;
 
-        // Save a new article
-        agent.post('/api/articles')
-          .send(article)
+        // Save a new device
+        agent.post('/api/devices')
+          .send(device)
           .expect(200)
-          .end(function (articleSaveErr, articleSaveRes) {
-            // Handle article save error
-            if (articleSaveErr) {
-              return done(articleSaveErr);
+          .end(function(deviceSaveErr, deviceSaveRes) {
+            // Handle device save error
+            if (deviceSaveErr) {
+              return done(deviceSaveErr);
             }
 
-            // Delete an existing article
-            agent.delete('/api/articles/' + articleSaveRes.body._id)
-              .send(article)
+            // Delete an existing device
+            agent.delete('/api/devices/' + deviceSaveRes.body._id)
+              .send(device)
               .expect(200)
-              .end(function (articleDeleteErr, articleDeleteRes) {
-                // Handle article error error
-                if (articleDeleteErr) {
-                  return done(articleDeleteErr);
+              .end(function(deviceDeleteErr, deviceDeleteRes) {
+                // Handle device error error
+                if (deviceDeleteErr) {
+                  return done(deviceDeleteErr);
                 }
 
                 // Set assertions
-                (articleDeleteRes.body._id).should.equal(articleSaveRes.body._id);
+                (deviceDeleteRes.body._id).should.equal(deviceSaveRes.body._id);
 
                 // Call the assertion callback
                 done();
@@ -226,15 +226,15 @@ describe('Article Admin CRUD tests', function () {
       });
   });
 
-  it('should be able to get a single article if signed in and verify the custom "isCurrentUserOwner" field is set to "true"', function (done) {
-    // Create new article model instance
-    article.user = user;
-    var articleObj = new Article(article);
+  it('should be able to get a single device if signed in and verify the custom "isCurrentUserOwner" field is set to "true"', function(done) {
+    // Create new device model instance
+    device.user = user;
+    var deviceObj = new Device(device);
 
     agent.post('/api/auth/signin')
       .send(credentials)
       .expect(200)
-      .end(function (signinErr, signinRes) {
+      .end(function(signinErr, signinRes) {
         // Handle signin error
         if (signinErr) {
           return done(signinErr);
@@ -243,31 +243,31 @@ describe('Article Admin CRUD tests', function () {
         // Get the userId
         var userId = user.id;
 
-        // Save a new article
-        agent.post('/api/articles')
-          .send(article)
+        // Save a new device
+        agent.post('/api/devices')
+          .send(device)
           .expect(200)
-          .end(function (articleSaveErr, articleSaveRes) {
-            // Handle article save error
-            if (articleSaveErr) {
-              return done(articleSaveErr);
+          .end(function(deviceSaveErr, deviceSaveRes) {
+            // Handle device save error
+            if (deviceSaveErr) {
+              return done(deviceSaveErr);
             }
 
-            // Get the article
-            agent.get('/api/articles/' + articleSaveRes.body._id)
+            // Get the device
+            agent.get('/api/devices/' + deviceSaveRes.body._id)
               .expect(200)
-              .end(function (articleInfoErr, articleInfoRes) {
-                // Handle article error
-                if (articleInfoErr) {
-                  return done(articleInfoErr);
+              .end(function(deviceInfoErr, deviceInfoRes) {
+                // Handle device error
+                if (deviceInfoErr) {
+                  return done(deviceInfoErr);
                 }
 
                 // Set assertions
-                (articleInfoRes.body._id).should.equal(articleSaveRes.body._id);
-                (articleInfoRes.body.title).should.equal(article.title);
+                (deviceInfoRes.body._id).should.equal(deviceSaveRes.body._id);
+                (deviceInfoRes.body.title).should.equal(device.title);
 
                 // Assert that the "isCurrentUserOwner" field is set to true since the current User created it
-                (articleInfoRes.body.isCurrentUserOwner).should.equal(true);
+                (deviceInfoRes.body.isCurrentUserOwner).should.equal(true);
 
                 // Call the assertion callback
                 done();
@@ -276,8 +276,8 @@ describe('Article Admin CRUD tests', function () {
       });
   });
 
-  afterEach(function (done) {
-    Article.remove().exec()
+  afterEach(function(done) {
+    Device.remove().exec()
       .then(User.remove().exec())
       .then(done())
       .catch(done);

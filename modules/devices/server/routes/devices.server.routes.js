@@ -6,7 +6,7 @@
 var devicesPolicy = require('../policies/devices.server.policy'),
   devices = require('../controllers/devices.server.controller');
 
-module.exports = function (app) {
+module.exports = function(app) {
   // devices collection routes
   app.route('/api/devices').all(devicesPolicy.isAllowed)
     .get(devices.list)
@@ -19,5 +19,5 @@ module.exports = function (app) {
     .delete(devices.delete);
 
   // Finish by binding the article middleware
-  app.param('deviceId', devices.articleByID);
+  app.param('deviceId', devices.deviceByID);
 };
