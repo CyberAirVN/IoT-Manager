@@ -16,7 +16,7 @@
       })
       .state('admin.devices.list', {
         url: '',
-        templateUrl: '/modules/articles/client/views/admin/list-devices.client.view.html',
+        templateUrl: '/modules/devices/client/views/admin/list-devices.client.view.html',
         controller: 'DevicesAdminListController',
         controllerAs: 'vm',
         data: {
@@ -25,7 +25,7 @@
       })
       .state('admin.devices.create', {
         url: '/create',
-        templateUrl: '/modules/articles/client/views/admin/form-devices.client.view.html',
+        templateUrl: '/modules/devices/client/views/admin/form-devices.client.view.html',
         controller: 'DevicesAdminController',
         controllerAs: 'vm',
         data: {
@@ -37,7 +37,7 @@
       })
       .state('admin.devices.edit', {
         url: '/:deviceId/edit',
-        templateUrl: '/modules/articles/client/views/admin/form-devices.client.view.html',
+        templateUrl: '/modules/devices/client/views/admin/form-devices.client.view.html',
         controller: 'DevicesAdminController',
         controllerAs: 'vm',
         data: {

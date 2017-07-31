@@ -16,7 +16,7 @@
       })
       .state('devices.list', {
         url: '',
-        templateUrl: '/modules/articles/client/views/list-devices.client.view.html',
+        templateUrl: '/modules/devices/client/views/list-devices.client.view.html',
         controller: 'DevicesListController',
         controllerAs: 'vm',
         data: {
@@ -25,7 +25,7 @@
       })
       .state('devices.view', {
         url: '/:deviceId',
-        templateUrl: '/modules/articles/client/views/view-devices.client.view.html',
+        templateUrl: '/modules/devices/client/views/view-devices.client.view.html',
         controller: 'DevicesController',
         controllerAs: 'vm',
         resolve: {
@@ -39,9 +39,9 @@
 
   getDevice.$inject = ['$stateParams', 'DevicesService'];
 
-  function getDevice($stateParams, ArticlesService) {
-    return ArticlesService.get({
-      deviceId: $stateParams.articleId
+  function getDevice($stateParams, DevicesService) {
+    return DevicesService.get({
+      deviceId: $stateParams.deviceId
     }).$promise;
   }
 }());

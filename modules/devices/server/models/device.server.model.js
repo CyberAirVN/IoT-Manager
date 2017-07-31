@@ -23,7 +23,7 @@ var DeviceSchema = new Schema({
   code: {
     type: String,
     required: 'code cannot be blank'
-  }
+  },
   gateway: {
     type: Array,
   },
