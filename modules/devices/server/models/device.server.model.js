@@ -25,7 +25,7 @@ var DeviceSchema = new Schema({
     required: 'code cannot be blank'
   },
   gateway: {
-    type: Array,
+    type: Array
   },
   user: {
     type: Schema.ObjectId,
