@@ -10,25 +10,37 @@
   function DevicesAdminController($scope, $state, $window, device, Authentication, Notification) {
     var vm = this;
 
-    vm.count = '4';
     if(device.gateway) {
-      vm.select = device.gateway;
+      vm.count = device.gateway.length.toString();
+      vm.gateway = device.gateway;
     } else {
-      vm.select = [];
+      vm.count = '4';
+      vm.gateway = [];
       for (var i = 0; i < vm.count; i++) {
-        vm.select.push({
+        vm.gateway.push({
           name: '',
-          status: false
+          status: false,
+          update: Date.now(),
+          order: i
         });
       }
     }
-    vm.onselect = function () {
-      vm.select = [];
-      for (var i = 0; i < vm.count; i++) {
-        vm.select.push({
-          name: '',
-          status: false
-        });
+    vm.onchange = function () {
+      if (vm.count < vm.gateway.length) {
+        vm.gateway = vm.gateway.slice(0, vm.count);
+      } else {
+        if (device.gateway && vm.count == device.gateway.length) {
+          vm.gateway = device.gateway;
+        } else {
+          for (var i = vm.gateway.length; i < vm.count; i++) {
+            vm.gateway.push({
+              name: '',
+              status: false,
+              update: Date.now(),
+              order: i
+            });
+          }
+        }
       }
     }
     vm.device = device;
@@ -36,7 +48,6 @@
     vm.form = {};
     vm.remove = remove;
     vm.save = save;
-
     // Remove existing Device
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {
@@ -55,7 +66,7 @@
       }
 
       // Create a new device, or update the current instance
-      vm.device.gateway = vm.select;
+      vm.device.gateway = vm.gateway;
       vm.device.createOrUpdate()
         .then(successCallback)
         .catch(errorCallback);

@@ -36,12 +36,15 @@
           </div>
           <div class="form-group">
             <label for="Select">Gateway</label>
-            <select id="Select" class="form-control" ng-model="vm.count" ng-change="vm.onselect()">
+            <select id="Select" class="form-control" ng-model="vm.count" ng-change="vm.onchange()">
               <option>4</option>
               <option>8</option>
             </select>
           </div>
-          <div class="form-group" ng-repeat="item in vm.select">
+          <div class="form-group" ng-repeat="item in vm.gateway">
+            <label class="checkbox-inline">
+              <span ng-bind="item.order + 1"></span>
+            </label>
             <label class="checkbox-inline">
               <input name="name" type="text" ng-model="item.name" id="name" class="form-control" placeholder="Name" required autofocus>
             </label>
