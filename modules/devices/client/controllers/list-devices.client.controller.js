@@ -15,9 +15,8 @@
     vm.remove = remove;
     vm.toggle = toggle;
 
-    //connect socket
+    // connect socket
     init();
-
     function init() {
       // If user is not signed in then redirect back home
       if (!Authentication.user) {
@@ -31,9 +30,9 @@
       // Add an event listener to the 'chatMessage' event
       Socket.on('toggleDevice', function (data) {
         vm.devices[data.index].gateway[data.order].status = !vm.devices[data.index].gateway[data.order].status;
-    		vm.devices[data.index].gateway[data.order].update = data.update;
-    		message = vm.devices[data.index].gateway[data.order].name + ' ' + vm.devices[data.index].name + data.update;
-    		Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>' + message});
+        vm.devices[data.index].gateway[data.order].update = data.update;
+        message = vm.devices[data.index].gateway[data.order].name + ' ' + vm.devices[data.index].name + data.update;
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>' + message });
       });
 
       // Remove the event listener when the controller instance is destroyed
@@ -51,9 +50,9 @@
       }
     }
     function toggle(device, order) {
-      //Create a new device, or update the current instance
+
+      // Create a new device, or update the current instance
       var update = device.gateway[order].update;
-      
       device.gateway[order].status = !device.gateway[order].status;
       device.gateway[order].update = (device.gateway[order].status ? ' On ' : ' Off ') + new Date().toLocaleTimeString();
       Socket.emit('toggleDevice', {
@@ -67,7 +66,7 @@
 
       function successCallback(res) {
         var message = device.gateway[order].name + ' ' + device.name + device.gateway[order].update;
-        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>' + message});
+        Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i>' + message });
       }
 
       function errorCallback(res) {

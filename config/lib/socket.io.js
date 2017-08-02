@@ -112,6 +112,5 @@ module.exports = function (app, db) {
       require(path.resolve(socketConfiguration))(io, socket);
     });
   });
-  
   return server;
 };

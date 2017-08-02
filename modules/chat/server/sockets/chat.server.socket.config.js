@@ -2,7 +2,6 @@
 
 // Create the chat configuration
 module.exports = function (io, socket) {
-  
   socket.join(socket.request.user._id);
   // Send a toggleDevice
   socket.on('toggleDevice', function (data) {

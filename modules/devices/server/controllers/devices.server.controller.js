@@ -82,7 +82,7 @@ exports.delete = function (req, res) {
  * List of Devices
  */
 exports.list = function (req, res) {
-  Device.find({user: req.user._id}).sort('-created').populate('user', 'displayName').exec(function (err, devices) {
+  Device.find({ user: req.user._id }).sort('-created').populate('user', 'displayName').exec(function (err, devices) {
     if (err) {
       return res.status(422).send({
         message: errorHandler.getErrorMessage(err)

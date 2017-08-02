@@ -28,7 +28,7 @@ exports.renderIndex = function (req, res) {
       sharedConfig: JSON.stringify(config.shared),
       bodyClass: 'sidebar-mini skin-green ng-cloak fixed'
     });
-  }else {
+  } else {
     res.render('modules/core/server/views/authentication', {
       sharedConfig: JSON.stringify(config.shared),
       bodyClass: 'login-page'
