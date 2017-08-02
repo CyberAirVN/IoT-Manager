@@ -9,14 +9,14 @@
 
   function menuConfig(menuService) {
     // Set top bar menu items
-    menuService.addMenuItem('sidebar', {
-      title: 'Chat',
-      state: 'chat'
-    });
+    // menuService.addMenuItem('sidebar', {
+    //   title: 'Chat',
+    //   state: 'chat'
+    // });
 
-    menuService.addSubMenuItem('sidebar', 'chat', {
-      title: 'Chat box',
-      state: 'chat'
-    });
+    // menuService.addSubMenuItem('sidebar', 'chat', {
+    //   title: 'Chat box',
+    //   state: 'chat'
+    // });
   }
 }());

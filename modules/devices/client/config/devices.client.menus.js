@@ -12,14 +12,14 @@
       title: 'Devices',
       state: 'devices',
       type: 'dropdown',
-      roles: ['*']
+      roles: ['user']
     });
 
     // Add the dropdown list item
     menuService.addSubMenuItem('sidebar', 'devices', {
       title: 'List Devices',
       state: 'devices.list',
-      roles: ['*']
+      roles: ['user']
     });
   }
 }());
