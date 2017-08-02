@@ -10,7 +10,7 @@
   function DevicesAdminController($scope, $state, $window, device, Authentication, Notification) {
     var vm = this;
 
-    if(device.gateway) {
+    if (device.gateway) {
       vm.count = device.gateway.length.toString();
       vm.gateway = device.gateway;
     } else {
@@ -20,7 +20,7 @@
         vm.gateway.push({
           name: '',
           status: false,
-          update: Date.now(),
+          update: new Date().toLocaleTimeString(),
           order: i
         });
       }
@@ -29,20 +29,20 @@
       if (vm.count < vm.gateway.length) {
         vm.gateway = vm.gateway.slice(0, vm.count);
       } else {
-        if (device.gateway && vm.count == device.gateway.length) {
+        if (device.gateway && vm.count === device.gateway.length) {
           vm.gateway = device.gateway;
         } else {
           for (var i = vm.gateway.length; i < vm.count; i++) {
             vm.gateway.push({
               name: '',
               status: false,
-              update: Date.now(),
+              update: new Date().toLocaleTimeString(),
               order: i
             });
           }
         }
       }
-    }
+    };
     vm.device = device;
     vm.authentication = Authentication;
     vm.form = {};

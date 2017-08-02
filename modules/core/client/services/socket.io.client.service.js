@@ -16,7 +16,6 @@
       removeListener: removeListener,
       socket: null
     };
-
     connect();
 
     return service;

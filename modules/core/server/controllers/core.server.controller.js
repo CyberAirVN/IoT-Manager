@@ -26,7 +26,7 @@ exports.renderIndex = function (req, res) {
     res.render('modules/core/server/views/index', {
       user: JSON.stringify(safeUserObject),
       sharedConfig: JSON.stringify(config.shared),
-      bodyClass : 'sidebar-mini skin-green ng-cloak fixed'
+      bodyClass: 'sidebar-mini skin-green ng-cloak fixed'
     });
   }else {
     res.render('modules/core/server/views/authentication', {
