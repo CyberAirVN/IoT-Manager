@@ -8,6 +8,7 @@ module.exports = {
       css: [
         // bower:css
         'public/lib/AdminLTE/bootstrap/css/bootstrap.min.css',
+        'public/lib/angular-bootstrap/ui-bootstrap-csp.css',
         'public/lib/angular-ui-notification/dist/angular-ui-notification.css',
         'public/lib/AdminLTE/dist/css/AdminLTE.min.css',
         'public/lib/AdminLTE/dist/css/skins/skin-green.css',

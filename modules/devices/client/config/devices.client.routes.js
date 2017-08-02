@@ -23,16 +23,28 @@
           pageTitle: 'Devices List'
         }
       })
-      .state('devices.view', {
-        url: '/:deviceId',
-        templateUrl: '/modules/devices/client/views/view-devices.client.view.html',
+      .state('devices.create', {
+        url: '/create',
+        templateUrl: '/modules/devices/client/views/form-devices.client.view.html',
         controller: 'DevicesController',
         controllerAs: 'vm',
+        data: {
+          roles: ['user']
+        },
+        resolve: {
+          deviceResolve: newDevice
+        }
+      })
+      .state('devices.edit', {
+        url: '/:deviceId/edit',
+        templateUrl: '/modules/devices/client/views/form-devices.client.view.html',
+        controller: 'DevicesController',
+        controllerAs: 'vm',
+        data: {
+          roles: ['user']
+        },
         resolve: {
           deviceResolve: getDevice
-        },
-        data: {
-          pageTitle: 'Device {{ deviceResolve.title }}'
         }
       });
   }
@@ -43,5 +55,11 @@
     return DevicesService.get({
       deviceId: $stateParams.deviceId
     }).$promise;
+  }
+
+  newDevice.$inject = ['DevicesService'];
+
+  function newDevice(DevicesService) {
+    return new DevicesService();
   }
 }());

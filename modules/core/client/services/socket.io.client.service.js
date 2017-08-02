@@ -16,7 +16,6 @@
       removeListener: removeListener,
       socket: null
     };
-
     connect();
 
     return service;
@@ -25,7 +24,7 @@
     function connect() {
       // Connect only when authenticated
       if (Authentication.user) {
-        service.socket = io('http://localhost:3017');
+        service.socket = io();
       }
     }
 

@@ -20,7 +20,7 @@
         vm.gateway.push({
           name: '',
           status: false,
-          update: Date.now(),
+          update: new Date().toLocaleTimeString(),
           order: i
         });
       }
@@ -36,7 +36,7 @@
             vm.gateway.push({
               name: '',
               status: false,
-              update: Date.now(),
+              update: new Date().toLocaleTimeString(),
               order: i
             });
           }
