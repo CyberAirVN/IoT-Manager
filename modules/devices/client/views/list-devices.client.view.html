@@ -27,8 +27,8 @@
           <div style="float: right;">
             <div style="margin-right: 24px;display: inline;float: left">
               <button type="button" ng-repeat="item in device.gateway" class="btn btn-xs" 
-              style="background-color: {{item.status ? 'green': 'rgb(221, 221, 221)'}};margin-right: 8px;border-radius: 50%;padding: 2px 8px" ng-click="vm.toggle(device, item.order)"
-              ng-bind="item.order + 1"></button>
+              style="background-color: {{item.status ? 'green': 'rgb(221, 221, 221)'}};margin-right: 8px;border-radius: 50%;padding: 2px 8px" 
+              ng-click="vm.toggle(device, item.order)" ng-bind="item.order + 1"></button>
             </div>
             <div style="display: inline;">
               <button data-ui-sref="devices.edit({deviceId: device._id})" type="button" class="btn btn-info btn-xs" title="Add">

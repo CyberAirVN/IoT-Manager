@@ -4,10 +4,10 @@ var defaultEnvConfig = require('./default');
 
 module.exports = {
   db: {
-    uri: process.env.MONGOHQ_URL || process.env.MONGODB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'localhost') + '/iotdb',
+    uri: process.env.MONGOHQ_URL || process.env.MONGODB_URI || 'mongodb://' + (process.env.DB_1_PORT_27017_TCP_ADDR || 'ds137370.mlab.com:37370') + '/app',
     options: {
-      user: '',
-      pass: ''
+      user: 'mino',
+      pass: '244466666'
     },
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
