@@ -8,8 +8,7 @@ module.exports = {
       css: [
         // bower:css
         'public/lib/angular-ui-notification/dist/angular-ui-notification.min.css',
-        'public/lib/bootstrap/dist/css/bootstrap.min.css',
-        'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+        'public/lib/AdminLTE/dist/css/AdminLTE.min.css',
         // endbower
       ],
       js: [
@@ -24,6 +23,8 @@ module.exports = {
         'public/lib/angular-ui-router/release/angular-ui-router.min.js',
         'public/lib/ng-file-upload/ng-file-upload.min.js',
         'public/lib/owasp-password-strength-test/owasp-password-strength-test.js',
+        'public/lib/AdminLTE/dist/js/app.min.js',
+        'public/lib/jquery-ui/jquery-ui.min.js',
         // endbower
       ]
     },

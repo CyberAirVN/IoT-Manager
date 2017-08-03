@@ -5,9 +5,9 @@
     .module('devices')
     .controller('DevicesController', DevicesController);
 
-  DevicesController.$inject = ['$scope', '$state', '$window', 'deviceResolve', 'Authentication', 'Notification'];
+  DevicesController.$inject = ['$scope', '$state', '$window', 'deviceResolve', 'Authentication', 'Notification', 'Socket'];
 
-  function DevicesController($scope, $state, $window, device, Authentication, Notification) {
+  function DevicesController($scope, $state, $window, device, Authentication, Notification, Socket) {
     var vm = this;
 
     if (device.gateway) {
@@ -52,7 +52,8 @@
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {
         vm.device.$remove(function() {
-          $state.go('admin.devices.list');
+          Socket.emit('updateDevice', {});
+          $state.go('devices.list');
           Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Device deleted successfully!' });
         });
       }
@@ -64,7 +65,6 @@
         $scope.$broadcast('show-errors-check-validity', 'vm.form.deviceForm');
         return false;
       }
-
       // Create a new device, or update the current instance
       vm.device.gateway = vm.gateway;
       vm.device.createOrUpdate()
@@ -72,6 +72,7 @@
         .catch(errorCallback);
 
       function successCallback(res) {
+        Socket.emit('updateDevice', {});
         $state.go('devices.list'); // should we send the User to the list or the updated Device's view?
         Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Device saved successfully!' });
       }
