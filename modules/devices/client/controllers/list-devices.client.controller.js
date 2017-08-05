@@ -5,19 +5,21 @@
     .module('devices')
     .controller('DevicesListController', DevicesListController);
 
-  DevicesListController.$inject = ['$scope', '$state', 'DevicesService', '$window', 'Notification', 'Socket', 'Authentication'];
+  DevicesListController.$inject = ['$scope', '$http', '$state', 'DevicesService', '$window', 'Notification', 'Socket', 'Authentication'];
 
-  function DevicesListController($scope, $state, DevicesService, $window, Notification, Socket, Authentication) {
+  function DevicesListController($scope, $http, $state, DevicesService, $window, Notification, Socket, Authentication) {
     var vm = this;
     var message;
 
     vm.devices = DevicesService.query();
     vm.remove = remove;
     vm.toggle = toggle;
+    $http.get('/api/users/gettoken').then(function (response) {
+      init(response.data);
+    });
 
     // connect socket
-    init();
-    function init() {
+    function init(token) {
       // If user is not signed in then redirect back home
       if (!Authentication.user) {
         $state.go('home');
@@ -25,7 +27,7 @@
 
       // Make sure the Socket is connected
       if (!Socket.socket) {
-        Socket.connect();
+        Socket.connect(token);
       }
       // Add an event listener to the 'toggleDevice' event
       Socket.on('toggleDevice', function (data) {

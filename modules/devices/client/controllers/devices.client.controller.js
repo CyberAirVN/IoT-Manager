@@ -25,6 +25,11 @@
         });
       }
     }
+    vm.device = device;
+    vm.authentication = Authentication;
+    vm.form = {};
+    vm.remove = remove;
+    vm.save = save;
     vm.onchange = function () {
       if (vm.count < vm.gateway.length) {
         vm.gateway = vm.gateway.slice(0, vm.count);
@@ -43,11 +48,6 @@
         }
       }
     };
-    vm.device = device;
-    vm.authentication = Authentication;
-    vm.form = {};
-    vm.remove = remove;
-    vm.save = save;
     // Remove existing Device
     function remove() {
       if ($window.confirm('Are you sure you want to delete?')) {

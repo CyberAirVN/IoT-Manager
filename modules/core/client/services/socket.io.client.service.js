@@ -6,9 +6,9 @@
     .module('core')
     .factory('Socket', Socket);
 
-  Socket.$inject = ['Authentication', '$state', '$timeout'];
+  Socket.$inject = ['Authentication', '$state', '$timeout', '$http'];
 
-  function Socket(Authentication, $state, $timeout) {
+  function Socket(Authentication, $state, $timeout, $http) {
     var service = {
       connect: connect,
       emit: emit,
@@ -16,15 +16,22 @@
       removeListener: removeListener,
       socket: null
     };
-    connect();
 
     return service;
 
     // Connect to Socket.io server
-    function connect() {
+    function connect(token) {
       // Connect only when authenticated
       if (Authentication.user) {
-        service.socket = io();
+        service.socket = io({
+          transportOptions: {
+            polling: {
+              extraHeaders: {
+                'x-clientid': token
+              }
+            }
+          }
+        });
       }
     }
 

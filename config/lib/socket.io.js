@@ -86,7 +86,7 @@ module.exports = function (app, db) {
 
       // Use the mongoStorage instance to get the Express session information
       mongoStore.get(sessionId, function (err, session) {
-        if (err) return next(err, false);
+        if (err) return next(new Error('session was not found'), false);
         if (!session) return next(new Error('session was not found for ' + sessionId), false);
 
         // Set the Socket.io session information
@@ -105,7 +105,13 @@ module.exports = function (app, db) {
       });
     });
   });
-
+  io.use(function (socket, next) {
+    let clientId = socket.handshake.headers['x-clientid'];
+    if (clientId === socket.request.session.socketToken) {
+      return next(null, true);
+    }
+    return next(new Error('ClientId is invalid'), false);
+  });
   // Add an event listener to the 'connection' event
   io.on('connection', function (socket) {
     config.files.server.sockets.forEach(function (socketConfiguration) {

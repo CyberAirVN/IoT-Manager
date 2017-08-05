@@ -15,7 +15,7 @@
     <div class="box-header with-border">
       <h3 class="box-title">{{vm.device._id ? 'Edit Device' : 'New Device'}}</h3>
       <div class="pull-right box-tools">
-        <button type="button" class="btn btn-primary btn-sm" title="Remove" ng-click="vm.remove()">
+        <button type="button" ng-if="vm.device._id" class="btn btn-primary btn-sm" title="Remove" ng-click="vm.remove()">
           <i class="glyphicon glyphicon-trash"></i>
         </button>
       </div>
@@ -30,9 +30,12 @@
               <p class="help-block error-text" ng-message="required">Device name is required.</p>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group" show-errors>
             <label class="control-label" for="code">Code</label>
-            <input name="code" type="text" ng-model="vm.device.code" id="code" class="form-control"  required placeholder="Code">
+            <input name="code" type="text" ng-model="vm.device.code" id="code" class="form-control"  required placeholder="Code" autofocus>
+            <div ng-messages="vm.form.deviceForm.code.$error" role="alert">
+              <p class="help-block error-text" ng-message="required">Code is required.</p>
+            </div>
           </div>
           <div class="form-group">
             <label for="Select">Gateway</label>
@@ -41,15 +44,18 @@
               <option>8</option>
             </select>
           </div>
-          <div class="form-group" ng-repeat="item in vm.gateway">
+          <div class="form-group" ng-repeat="item in vm.gateway" show-errors>
             <label class="checkbox-inline">
               <span ng-bind="item.order + 1"></span>
             </label>
             <label class="checkbox-inline">
-              <input name="name" type="text" ng-model="item.name" id="name" class="form-control" placeholder="Name" required autofocus>
+              <input name="{{'gatewayname' + $index}}" type="text" ng-model="item.name" id="name" class="form-control" placeholder="Name" required autofocus>
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" ng-model="item.status">Status
+              <input name="status" type="checkbox" ng-model="item.status">{{item.status ? 'On' : 'Off'}}
+            </label>
+            <label class="checkbox-inline" ng-messages="vm.form.deviceForm['gatewayname'+$index].$error" role="alert">
+              <span class="help-block error-text" ng-message="required">Gateway name is required.</span>
             </label>
           </div>
           <div class="form-group">
