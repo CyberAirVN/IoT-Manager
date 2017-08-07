@@ -218,17 +218,51 @@ module.exports.configureSocketIO = function (app, db) {
 };
 
 /**
+ * get user by token
+ * @param app
+ */
+module.exports.getCurrentUser = function (app) {
+  app.use(function(req, res, next) {
+    var token = require(path.resolve('./config/lib/token'));
+    if( req.headers.authorization ){
+      token.decode(req.headers.authorization, function (decoded) {
+        if(!decoded) {
+          return next();
+        }
+        if (decoded.exp > new Date()) {
+          return res.status(403).end();
+        }
+        require('mongoose').model('User')
+          .findById(decoded.id)
+          .exec(function(err, user) {
+            if(err || !user) {
+              return res.status(403).end();
+            }
+            req.user = user;
+            next();
+          });
+      });
+    }else
+      next();
+  });
+};
+
+/**
  * Initialize the Express application
  */
 module.exports.init = function (db) {
   // Initialize express app
   var app = express();
 
+
   // Initialize local variables
   this.initLocalVariables(app);
 
   // Initialize Express middleware
   this.initMiddleware(app);
+
+  // Check current user
+  this.getCurrentUser(app);
 
   // Initialize Express view engine
   this.initViewEngine(app);
