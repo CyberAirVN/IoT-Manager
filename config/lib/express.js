@@ -224,9 +224,9 @@ module.exports.configureSocketIO = function (app, db) {
 module.exports.getCurrentUser = function (app) {
   app.use(function(req, res, next) {
     var token = require(path.resolve('./config/lib/token'));
-    if( req.headers.authorization ){
+    if (req.headers.authorization) {
       token.decode(req.headers.authorization, function (decoded) {
-        if(!decoded) {
+        if (!decoded) {
           return next();
         }
         if (decoded.exp > new Date()) {
@@ -235,15 +235,17 @@ module.exports.getCurrentUser = function (app) {
         require('mongoose').model('User')
           .findById(decoded.id)
           .exec(function(err, user) {
-            if(err || !user) {
+            if (err || !user) {
               return res.status(403).end();
             }
             req.user = user;
             next();
           });
       });
-    }else
+    } else {
       next();
+    }
+
   });
 };
 

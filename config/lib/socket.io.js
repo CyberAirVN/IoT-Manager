@@ -67,7 +67,10 @@ module.exports = function (app, db) {
     server = http.createServer(app);
   }
   // Create a new Socket.io server
-  var io = socketio.listen(server,{ origins: '*:*'});
+  var io = socketio.listen(server,
+    {
+      origins: '*:*'
+    });
 
   // Create a MongoDB storage object
   var mongoStore = new MongoStore({
@@ -78,13 +81,13 @@ module.exports = function (app, db) {
   // Intercept Socket.io's handshake request
   io.use(function (socket, next) {
 
-    var authorization = socket.handshake.headers['authorization'];
+    var authorization = socket.handshake.headers.authorization;
 
-    if( authorization ){
+    if (authorization) {
       var token = require(path.resolve('./config/lib/token'));
       token.decode(authorization, function (decoded) {
-        if(!decoded) {
-          return next();
+        if (!decoded) {
+          return next(new Error('User is not authenticated'), false);
         }
         if (decoded.exp > new Date()) {
           return next(new Error('User is not authenticated'), false);
@@ -92,14 +95,14 @@ module.exports = function (app, db) {
         require('mongoose').model('User')
           .findById(decoded.id)
           .exec(function(err, user) {
-            if(err || !user) {
+            if (err || !user) {
               return next(new Error('User is not authenticated'), false);
             }
             socket.request.user = user;
             next();
           });
       });
-    }else {
+    } else {
       // Use the 'cookie-parser' module to parse the request cookies
       cookieParser(config.sessionSecret)(socket.request, {}, function (err) {
         // Get the session id from the request cookies

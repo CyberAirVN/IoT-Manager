@@ -3,10 +3,8 @@
 const jwt = require('jsonwebtoken'),
   fs = require('fs'),
   path = require('path'),
-  privateKey = path.resolve("./config/certificate/private-key.pem"),
-  publicKey = path.resolve("./config/certificate/public-key.pem");
-
-
+  privateKey = path.resolve('./config/certificate/private-key.pem'),
+  publicKey = path.resolve('./config/certificate/public-key.pem');
 
 exports.encode = function (data) {
 

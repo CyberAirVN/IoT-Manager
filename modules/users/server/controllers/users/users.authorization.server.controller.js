@@ -6,7 +6,6 @@
 var _ = require('lodash'),
   mongoose = require('mongoose'),
   User = mongoose.model('User'),
-  Token = mongoose.model('Token'),
   crypto = require('crypto');
 
 /**
@@ -30,31 +29,5 @@ exports.userByID = function (req, res, next, id) {
 
     req.profile = user;
     next();
-  });
-};
-/**
- * User token
- */
-exports.getToken = function (req, res) {
-  if (req.session.socketToken) {
-    res.json(req.session.socketToken);
-  } else {
-    crypto.randomBytes(18, (err, buffer) => {
-      req.session.socketToken = buffer.toString('hex');
-      res.json(req.session.socketToken);
-    });
-  }
-};
-/**
- * Socket token
- */
-exports.socketToken = function (req, res) {
-  crypto.randomBytes(21, (err, buffer) => {
-    var token = new Token();
-    token.code = buffer.toString('hex');
-    token.user = req.user._id;
-    token.save(err => {
-      res.json(token.code);
-    });
   });
 };
