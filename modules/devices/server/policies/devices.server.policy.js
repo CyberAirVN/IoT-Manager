@@ -30,15 +30,6 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/devices/:deviceId',
       permissions: ['*']
     }]
-  }, {
-    roles: ['guest'],
-    allows: [{
-      resources: '/api/devices',
-      permissions: ['get']
-    }, {
-      resources: '/api/devices/:deviceId',
-      permissions: ['get']
-    }]
   }]);
 };
 
@@ -47,7 +38,6 @@ exports.invokeRolesPolicies = function () {
  */
 exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
-
   // If an device is being processed and the current user created it then allow any manipulation
   if (req.device && req.user && req.device.user && req.device.user.id === req.user.id) {
     return next();

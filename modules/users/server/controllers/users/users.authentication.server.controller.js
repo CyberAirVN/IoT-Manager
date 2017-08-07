@@ -5,6 +5,7 @@
  */
 var path = require('path'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
+  token = require(path.resolve('./config/lib/token')),
   mongoose = require('mongoose'),
   passport = require('passport'),
   User = mongoose.model('User');
@@ -35,8 +36,10 @@ exports.signup = function (req, res) {
       });
     } else {
       // Remove sensitive data before login
+      user = user.toJSON();
       user.password = undefined;
       user.salt = undefined;
+      user.token = token.encode(user);
 
       req.login(user, function (err) {
         if (err) {
@@ -58,8 +61,10 @@ exports.signin = function (req, res, next) {
       res.status(422).send(info);
     } else {
       // Remove sensitive data before login
+      user = user.toJSON();
       user.password = undefined;
       user.salt = undefined;
+      user.token = token.encode(user);
 
       req.login(user, function (err) {
         if (err) {
