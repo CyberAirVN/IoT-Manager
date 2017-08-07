@@ -41,6 +41,15 @@
         vm.devices = DevicesService.query();
         Notification.success({ message: '<i class="glyphicon glyphicon-ok"></i> Update device' });
       });
+      Socket.on('connect_error', (error) => {
+        console.log('connect', error);
+      });
+      Socket.on('connect', () => {
+        console.log('connect ok');
+      });
+      Socket.on('error', (error) => {
+        Notification.error({ message: '<i class="glyphicon glyphicon-remove"></i> Not connected socket!' });
+      });
       // Remove the event listener when the controller instance is destroyed
       $scope.$on('$destroy', function () {
         Socket.removeListener('toggleDevice');

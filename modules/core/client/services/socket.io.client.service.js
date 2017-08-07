@@ -23,13 +23,9 @@
     function connect(token) {
       // Connect only when authenticated
       if (Authentication.user) {
-        service.socket = io({
-          transportOptions: {
-            polling: {
-              extraHeaders: {
-                'x-clientid': token
-              }
-            }
+        service.socket = io('http://localhost:3017', {
+          query: {
+            'x-clientid': token
           }
         });
       }
