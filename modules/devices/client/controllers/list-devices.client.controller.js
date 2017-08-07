@@ -14,9 +14,6 @@
     vm.devices = DevicesService.query();
     vm.remove = remove;
     vm.toggle = toggle;
-    $http.get('/api/users/gettoken').then(function (response) {
-      init(response.data);
-    });
 
     // connect socket
     function init(token) {
@@ -27,7 +24,7 @@
 
       // Make sure the Socket is connected
       if (!Socket.socket) {
-        Socket.connect(token);
+        Socket.connect();
       }
       // Add an event listener to the 'toggleDevice' event
       Socket.on('toggleDevice', function (data) {

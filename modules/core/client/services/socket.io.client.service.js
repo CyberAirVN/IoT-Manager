@@ -20,14 +20,10 @@
     return service;
 
     // Connect to Socket.io server
-    function connect(token) {
+    function connect() {
       // Connect only when authenticated
       if (Authentication.user) {
-        service.socket = io('http://localhost:3017', {
-          query: {
-            'x-clientid': token
-          }
-        });
+        service.socket = io();
       }
     }
 
