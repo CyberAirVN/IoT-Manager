@@ -81,7 +81,7 @@ module.exports = function (app, db) {
   // Intercept Socket.io's handshake request
   io.use(function (socket, next) {
 
-    var authorization = socket.handshake.headers.authorization;
+    var authorization = socket.handshake.query.authorization;
 
     if (authorization) {
       var token = require(path.resolve('./config/lib/token'));
