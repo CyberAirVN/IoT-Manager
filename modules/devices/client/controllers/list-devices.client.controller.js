@@ -14,6 +14,7 @@
     vm.devices = DevicesService.query();
     vm.remove = remove;
     vm.toggle = toggle;
+    init();
 
     // connect socket
     function init(token) {
