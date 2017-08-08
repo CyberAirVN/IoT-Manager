@@ -89,6 +89,10 @@ module.exports.initMiddleware = function (app) {
   // Add the cookie parser and flash middleware
   app.use(cookieParser());
   app.use(flash());
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  });
 };
 
 /**
