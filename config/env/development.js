@@ -12,9 +12,9 @@ module.exports = {
     // Enable mongoose debug mode
     debug: process.env.MONGODB_DEBUG || false
   },
-  domain: 'localhost',
-  port: 3017,
-  host: 'localhost',
+  domain: process.env.DOMAIN || 'localhost',
+  port: process.env.PORT || 3017,
+  host: process.env.HOST || '0.0.0.0',
   log: {
     // logging with Morgan - https://github.com/expressjs/morgan
     // Can specify one of 'combined', 'common', 'dev', 'short', 'tiny'
