@@ -16,11 +16,11 @@
     "owasp-password-strength-test": "~1.3.0",
     "AdminLTE": "admin-lte#^2.3.11",
     "jquery": "^3.2.1",
-    "jquery-ui": "^1.12.1",
-    "angular-translate": "^2.15.2"
+    "jquery-ui": "^1.12.1"
   },
   "overrides": {
-    "bootstrap": {},
+    "bootstrap": {
+    },
     "jquery": {
       "main": []
     }
