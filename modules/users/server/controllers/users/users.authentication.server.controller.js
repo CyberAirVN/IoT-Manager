@@ -39,7 +39,7 @@ exports.signup = function (req, res) {
       user = user.toJSON();
       user.password = undefined;
       user.salt = undefined;
-      user.token = token.encode(user);
+      user.token = token.encode(user._id.toString());
 
       req.login(user, function (err) {
         if (err) {
@@ -64,7 +64,7 @@ exports.signin = function (req, res, next) {
       user = user.toJSON();
       user.password = undefined;
       user.salt = undefined;
-      user.token = token.encode(user);
+      user.token = token.encode(user._id.toString());
 
       req.login(user, function (err) {
         if (err) {
